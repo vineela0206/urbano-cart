@@ -6,9 +6,9 @@ This project is designed as a **portfolio project for recruiters**, showcasing c
 
 ---
 
-## 🚀 Features
+##  Features
 
-### 👤 User Features
+### User Features
 
 * User signup, login, and logout (Django Authentication)
 * Browse products by categories
@@ -18,7 +18,7 @@ This project is designed as a **portfolio project for recruiters**, showcasing c
 * Checkout flow with address and delivery options
 * Order history and order cancellation
 
-### 🛍️ E‑Commerce Functionality
+### E‑Commerce Functionality
 
 * Category-based product listing
 * Best sellers, new arrivals, featured products
@@ -26,13 +26,13 @@ This project is designed as a **portfolio project for recruiters**, showcasing c
 * Session-based cart for guest users
 * Database-backed cart for logged-in users
 
-### 💳 Payments
+### Payments
 
 * Razorpay payment gateway integration
 * Cash on Delivery (COD) option
 * Demo user checkout flow (no real payment required)
 
-### 🛠️ Admin Features
+### Admin Features
 
 * Django Admin dashboard
 * Product & category management
@@ -42,7 +42,7 @@ This project is designed as a **portfolio project for recruiters**, showcasing c
 
 ---
 
-## 🧑‍💻 Tech Stack
+## Tech Stack
 
 * **Backend:** Django (Python)
 * **Frontend:** HTML, CSS, Django Templates
@@ -53,7 +53,7 @@ This project is designed as a **portfolio project for recruiters**, showcasing c
 
 ---
 
-## 🔐 Security Practices
+## Security Practices
 
 * Sensitive data managed using **environment variables (.env)**
 * `.env` excluded from GitHub using `.gitignore`
@@ -61,7 +61,7 @@ This project is designed as a **portfolio project for recruiters**, showcasing c
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 urbano-cart/
@@ -76,7 +76,7 @@ urbano-cart/
 
 ---
 
-## ⚙️ Local Setup Instructions
+## Local Setup Instructions
 
 1. Clone the repository
 
@@ -128,7 +128,7 @@ urbano-cart/
 
 ---
 
-## 👤 Demo User
+## Demo User
 
 To test checkout without real payment:
 
@@ -141,7 +141,7 @@ Demo users can place orders without triggering Razorpay payment.
 
 ---
 
-## 📌 What This Project Demonstrates
+## What This Project Demonstrates
 
 * Practical Django MVT architecture
 * Secure handling of secrets and credentials
@@ -151,7 +151,7 @@ Demo users can place orders without triggering Razorpay payment.
 
 ---
 
-## 🔮 Future Improvements
+## Future Improvements
 
 * Deployment (AWS / Render / Railway)
 * REST API with Django REST Framework
@@ -161,7 +161,7 @@ Demo users can place orders without triggering Razorpay payment.
 
 ---
 
-## 👨‍🎓 Author
+## Author
 
 **Vineela**
 
@@ -169,4 +169,4 @@ Aspiring Backend / Python Developer / Software Engineer
 
 ---
 
-⭐ *If you are a recruiter, thank you for reviewing this project!*
+*If you are a recruiter, thank you for reviewing this project!*
