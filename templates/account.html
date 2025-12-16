@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Account-UrbanoCart{% endblock %}
+{% block content %}
+<section class="container">
+  <h1>Your Account</h1>
+  <p>Username: {{ user.username }}</p>
+  <p>Email: {{ user.email }}</p>
+  <p><a href="{% url 'logout' %}">Logout</a></p>
+</section>
+{% endblock %}

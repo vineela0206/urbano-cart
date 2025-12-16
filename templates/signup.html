@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Sign up-UrbanoCart{% endblock %}
+
+{% block content %}
+<section class="container auth-page">
+  <h1>Create account</h1>
+  <form method="post" action="{% url 'signup' %}">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div>
+      {{ form.username.label_tag }}<br>
+      {{ form.username }}
+      {{ form.username.errors }}
+    </div>
+    <div>
+      {{ form.password1.label_tag }}<br>
+      {{ form.password1 }}
+      {{ form.password1.errors }}
+    </div>
+    <div>
+      {{ form.password2.label_tag }}<br>
+      {{ form.password2 }}
+      {{ form.password2.errors }}
+    </div>
+    <button type="submit" class="form-btn" >Sign up</button>
+  </form>
+  <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+</section>
+{% endblock %}
+

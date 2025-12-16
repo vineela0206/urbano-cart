@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Order Success-UrbanoCart{% endblock %}
+
+{% block content %}
+
+<style>
+.success-container {
+    max-width: 600px;
+    margin: 60px auto;
+    text-align: center;
+    background: #fff;
+    padding: 40px;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.success-icon {
+    font-size: 70px;
+    color: #2ecc71;
+    margin-bottom: 20px;
+}
+
+.success-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.success-message {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.order-info {
+    background: #f7f7f7;
+    padding: 18px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+.order-info p {
+    margin: 6px 0;
+    font-size: 15px;
+}
+
+.btn-home {
+    background: #000;
+    color: #fff !important;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: 0.2s ease;
+}
+
+.btn-home:hover {
+    background: #333;
+}
+</style>
+
+<div class="success-container">
+    
+    <div class="success-icon">✔</div>
+    
+    <div class="success-title">Order Placed Successfully!</div>
+    
+    <p class="success-message">
+        Thank you for shopping with us. Your order has been confirmed.
+    </p>
+
+    <div class="order-info">
+        <p><strong>Order ID:</strong> {{ order.id }}</p>
+        <p><strong>Total Amount:</strong> ₹{{ order.total_price }}</p>
+		<p><strong>Delivery Method:</strong> {{ order.delivery_method }}</p>
+		<p><strong>Estimated Delivery:</strong> {{ order.delivery_days }} days</p>
+        <p><strong>Payment Status:</strong> 
+            {% if order.is_paid %}
+                Paid Online
+            {% else %}
+                Cash on Delivery
+            {% endif %}
+        </p>
+    </div>
+
+    <a href="{% url 'home' %}" class="btn-home">Continue Shopping</a>
+</div>
+
+{% endblock %}
+

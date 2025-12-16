@@ -1,0 +1,18 @@
+# Environment variables
+.env*
+
+# Virtual environment
+ecom_project/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Django database
+db.sqlite3
+
+# Media and static files
+media/
+staticfiles/
+

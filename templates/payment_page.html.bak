@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+.payment-container {
+    max-width: 500px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 35px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.payment-title {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.payment-text {
+    font-size: 15px;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.pay-btn {
+    background: black;
+    color: white;
+    padding: 14px 20px;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 17px;
+    transition: 0.2s ease;
+}
+
+.pay-btn:hover {
+    background: #222;
+}
+
+.loading-icon {
+    font-size: 50px;
+    color: #3498db;
+    margin-bottom: 15px;
+}
+</style>
+
+<div class="payment-container">
+    
+    <div class="loading-icon">💳</div>
+
+    <div class="payment-title">Processing Payment</div>
+
+    <p class="payment-text">
+        You are being redirected to Razorpay's secure payment page.
+    </p>
+
+    <form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
+        {% csrf_token %}
+
+        <input type="hidden" name="key_id" value="{{ razorpay_key }}">
+        <input type="hidden" name="order_id" value="{{ razorpay_order_id }}">
+        <input type="hidden" name="name" value="UrbanoCart">
+        <input type="hidden" name="description" value="Order Payment">
+        <input type="hidden" name="currency" value="INR">
+        <input type="hidden" name="amount" value="{{ amount|floatformat:2 }}">
+        <input type="hidden" name="callback_url" value="{% url 'payment_callback' %}">
+
+        <button class="pay-btn">Proceed to Pay</button>
+    </form>
+
+</div>
+
+{% endblock %}
+

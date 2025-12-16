@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home-UrbanoCart{% endblock %}
+
+{% block content %}
+<section class="hero container">
+  <div class="hero-left">
+    <h1 class="hero-title">Everything You Need</h1>
+    <p class="hero-sub">Shop the Trends. Live the Style.</p>
+    <a class="btn-cta" href="{% url 'categories' %}">Shop Now</a>
+  </div>
+  <div class="hero-right slider" style="--count: {{ hero_categories|length }};">	
+	<div class="slides">
+	  {% for item in hero_categories %}
+		<a href="{% url 'category_products' item.category.slug %}" class="slide">
+		  {% if item.product.images %}
+			<img class="hero-image" src="{{ item.product.images.first.image.url }}" alt="{{ item.category.name }}" style="max-width:420px;border-radius:16px;">
+		  {% else %}
+			<img class="hero-image" src="{% static 'images/placeholder-product.png' %}" alt="{{ item.category.name }}" style="max-width:420px;border-radius:16px;">
+		  {% endif %}
+		</a>
+	  {% endfor %}
+	</div>
+  </div>
+</section>
+
+<section class="section container">
+  <h2 class="section-title">New Arrivals</h2>
+  <div class="grid grid-4">
+    {% for product in new_arrivals %}
+      <article class="card">
+	    <a href="{% url 'product_detail' product.slug %}">
+			<div class="card-media">
+			  {% if product.images %}
+				<img src="{{ product.images.first.image.url }}" alt="{{ product.title }}">
+			  {% else %}
+				<img src="{% static 'images/placeholder-product.png' %}" alt="{{ product.title }}">
+			  {% endif %}
+			</div>
+			<div class="card-body">
+			  <div class="card-title">{{ product.title }}</div>
+			  <div class="card-price">&#8377;{{ product.price }}</div>
+			</div>
+		</a>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section container">
+  <h2 class="section-title">Trending</h2>
+  <div class="grid grid-3">
+    {% for product in trending %}
+      <article class="card">
+		<a href="{% url 'product_detail' product.slug %}">
+			<div class="card-media">
+			  {% if product.images %}
+				<img src="{{ product.images.first.image.url}}" alt="{{ product.title }}">
+			  {% else %}
+				<img src="{% static 'images/placeholder-product.png' %}" alt="{{ product.title }}">
+			  {% endif %}
+			</div>
+			<div class="card-body">
+			  <div class="card-title">{{ product.title }}</div>
+			  <div class="card-price">&#8377;{{ product.price }}</div>
+			</div>
+		</a>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
+

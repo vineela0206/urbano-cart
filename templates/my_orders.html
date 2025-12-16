@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Orders - UrbanoCart{% endblock %}
+
+{% block content %}
+<div class="orders-page container">
+    <h1>My Orders</h1>
+
+    {% if orders %}
+        <div class="orders-list">
+            {% for order in orders %}
+                <div class="order-card {% if order.is_cancelled %}cancelled{% endif %}">
+                    <div class="order-header">
+                        <div>Order #{{ order.id }}</div>
+                        <div>Status: <strong>{{ order.status }}</strong></div>
+                        <div>Placed on: {{ order.created_at|date:"d M Y, H:i" }}</div>
+                        <div>Delivery: {{ order.delivery_method }} ({{ order.delivery_days }} days)</div>
+                    </div>
+
+                    <div class="order-items">
+                        {% for item in order.items.all %}
+                        <div class="order-item">
+                            <a href="{% url 'product_detail' item.product.slug %}">
+                                <img src="{% if item.product.images %}{{ item.product.images.first.image.url }}{% else %}{% static 'images/placeholder-product.png' %}{% endif %}" alt="{{ item.product.title }}">
+                            </a>
+                            <div class="item-details">
+                                <a href="{% url 'product_detail' item.product.slug %}">
+                                    <h3>{{ item.product.title }}</h3>
+                                </a>
+                                {% if item.size %}
+                                    <div class="item-size">Size: <strong>{{ item.size }}</strong></div>
+                                {% endif %}
+                                <div class="item-quantity">Qty: {{ item.quantity }}</div>
+                                <div class="item-price">₹{{ item.price }}</div>
+                                <div class="item-total">Total: ₹{{ item.total }}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="order-footer">
+                        <div>Total Price: <strong>₹{{ order.total_price }}</strong></div>
+                        <div>Payment Method: {{ order.payment_method }}</div>
+                        {% if order.is_paid %}
+                            <div class="paid-label">Paid</div>
+                        {% else %}
+                            <div class="unpaid-label">Pending Payment</div>
+                        {% endif %}
+						{% if not order.is_cancelled %}
+							<form method="POST" action="{% url 'cancel_order' order.id %}">
+								{% csrf_token %}
+								<button type="submit" class="cancel-btn">Cancel Order</button>
+							</form>
+						{% else %}
+							<div class="cancelled-badge">Cancelled on {{ order.cancelled_at|date:"d M Y, H:i" }}</div>
+						{% endif %}
+						</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>You have no orders yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
+

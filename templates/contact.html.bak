@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+.contact-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 50px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.contact-box {
+    padding: 30px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+.contact-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+
+.contact-desc {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+/* CONTACT INFO */
+.info-item {
+    margin-bottom: 20px;
+}
+
+.info-label {
+    font-weight: 600;
+    margin-bottom: 4px;
+    font-size: 15px;
+}
+
+.info-text {
+    font-size: 15px;
+    color: #444;
+}
+
+/* FORM */
+.contact-form label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+.contact-form textarea {
+    height: 130px;
+    resize: none;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px 0;
+    background: black;
+    color: white;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background: #222;
+}
+
+/* RESPONSIVE */
+@media (max-width: 800px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+
+
+<div class="contact-container">
+	{% if messages %}
+	<div style="
+		width: 90%;
+		max-width: 1200px;
+		margin: 20px auto;
+		padding: 15px;
+		background: #d4edda;
+		border-left: 5px solid #28a745;
+		color: #155724;
+		border-radius: 8px;
+		font-size: 16px;
+	">
+		{% for message in messages %}
+			{{ message }}
+		{% endfor %}
+	</div>
+	{% endif %}
+
+    <!-- LEFT BOX : CONTACT DETAILS -->
+    <div class="contact-box">
+        <h2 class="contact-title">Contact Us</h2>
+        <p class="contact-desc">We’d love to hear from you. Reach out to us through any of the following ways:</p>
+
+        <div class="info-item">
+            <div class="info-label">📍 Address</div>
+            <div class="info-text">C.R.R Homes, Hanamkonda, India</div>
+        </div>
+
+        <div class="info-item">
+            <div class="info-label">📞 Phone</div>
+            <div class="info-text">+91 799700 3800</div>
+        </div>
+
+        <div class="info-item">
+            <div class="info-label">📧 Email</div>
+            <div class="info-text">daraganivineela@gmail.com</div>
+        </div>
+
+        <div class="info-item">
+            <div class="info-label">🕒 Working Hours</div>
+            <div class="info-text">Mon – Sat : 9:00 AM to 6:00 PM</div>
+        </div>
+    </div>
+
+
+    <!-- RIGHT BOX : CONTACT FORM -->
+    <div class="contact-box">
+        <h2 class="contact-title">Send us a Message</h2>
+
+        <form method="POST" class="contact-form">
+            {% csrf_token %}
+
+            <label>Your Name</label>
+            <input type="text" name="name" placeholder="Enter your name" required>
+
+            <label>Your Email</label>
+            <input type="email" name="email" placeholder="Enter your email" required>
+
+            <label>Your Message</label>
+            <textarea name="message" placeholder="Write your message here..." required></textarea>
+
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+    </div>
+
+</div>
+
+
+{% endblock %}

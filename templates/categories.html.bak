@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Categories-UrbanoCart{% endblock %}
+
+
+{% block content %}
+<section class="categories-section">
+<h1>Categories</h1>
+<div class="categories-grid">
+
+    {% for cat in categories %}
+    <a href="{% url 'category_products' cat.slug %}" class="category-card">
+        <div class="category-name">{{ cat.name }}</div>
+    </a>
+    {% endfor %}
+
+</div>
+
+</section>
+{% endblock %}

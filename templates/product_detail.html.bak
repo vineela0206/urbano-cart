@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="product-container">
+
+    <div class="gallery">
+
+        <!-- Main Image -->
+        <div class="main-image">
+            <img id="mainImage" src="{{ images.0.image.url }}" alt="{{ product.title }}">
+        </div>
+
+        <!-- Thumbnails -->
+        <div class="thumbnail-row">
+            {% for img in images %}
+                <img class="thumbnail"
+                     src="{{ img.image.url }}"
+                     onclick="document.getElementById('mainImage').src='{{ img.image.url }}'">
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <div class="product-info-section">
+        <h1 class="product-title">{{ product.title }}</h1>
+        <p class="product-price">&#8377;{{ product.price }}</p>
+
+        <ul class="product-features">
+            {% for line in product.features.splitlines %}
+            <li>{{ line }}</li>
+            {% endfor %}
+        </ul>
+		
+		<form method="POST" action="{% url 'add_to_cart' product.id %}">
+			{% csrf_token %}
+
+			<!-- SIZE SELECTION (only if product has sizes) -->
+			{% if product.size_list %}
+			<div class="size-section">
+				<label>Select Size:</label>
+				<div class="size-options">
+					{% for size in product.size_list %}
+						<label class="size-btn available">
+							<input type="radio" name="size" value="{{ size }}" required>
+							{{ size }}
+						</label>
+					{% endfor %}
+				</div>
+			</div>
+			{% endif %}
+
+			<!-- QUANTITY SECTION -->
+			<div class="quantity-section">
+				<label>Quantity:</label>
+				<div class="qty-box">
+					<button type="button" onclick="this.nextElementSibling.stepDown()">-</button>
+					<input type="number" name="quantity" class="qty-input" min="1" value="1">
+					<button type="button" onclick="this.previousElementSibling.stepUp()">+</button>
+				</div>
+			</div>
+
+			<button type="submit" class="add-cart-btn">Add to Cart</button>
+		</form>
+    </div>
+
+</div>
+
+{% endblock %}
+

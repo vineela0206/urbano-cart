@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+/* MAIN CONTAINER */
+.about-container {
+    width: 90%;
+    max-width: 1180px;
+    margin: 50px auto;
+}
+
+/* HERO SECTION */
+.about-hero {
+    background: linear-gradient(135deg, #000, #333);
+    color: white;
+    padding: 60px 40px;
+    border-radius: 18px;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.about-hero h1 {
+    font-size: 42px;
+    margin-bottom: 12px;
+}
+
+.about-hero p {
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+/* FLEX SECTION */
+.about-flex {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.about-flex img {
+    width: 50%;
+    border-radius: 18px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.about-text {
+    width: 50%;
+}
+
+.about-text h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.about-text p {
+    line-height: 1.7;
+    font-size: 16px;
+    color: #444;
+}
+
+/* VALUES SECTION */
+.values-section {
+    margin: 60px 0;
+}
+
+.values-title {
+    text-align: center;
+    font-size: 34px;
+    font-weight: bold;
+    margin-bottom: 35px;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.value-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: .3s ease;
+    text-align: center;
+}
+
+.value-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.value-card h3 {
+    font-size: 22px;
+    margin-bottom: 12px;
+}
+
+.value-card p {
+    color: #555;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+/* TEAM SECTION */
+.team-section {
+    margin: 70px 0;
+    text-align: center;
+}
+
+.team-section h2 {
+    font-size: 34px;
+    margin-bottom: 25px;
+}
+
+.team-grid {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.team-card {
+    width: 260px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.team-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.team-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.team-role {
+    color: #777;
+    margin-bottom: 10px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .about-flex {
+        flex-direction: column;
+    }
+    
+    .about-flex img, 
+    .about-text {
+        width: 100%;
+    }
+
+    .about-hero h1 {
+        font-size: 32px;
+    }
+}
+</style>
+
+
+<div class="about-container">
+
+    <!-- HERO -->
+    <div class="about-hero">
+        <h1>About Us</h1>
+        <p>Your trusted destination for fashion, lifestyle, and daily essentials.</p>
+    </div>
+
+    <!-- WHO WE ARE -->
+    <div class="about-flex">
+        <img src="{% static 'images/about-banner.png' %}" alt="About Image">
+        
+        <div class="about-text">
+            <h2>Who We Are</h2>
+            <p>
+                UrbanoCart is a modern online shopping platform built with a mission to provide 
+                high-quality products at unbeatable prices. We combine style, convenience, and trust 
+                to bring you the best shopping experience possible.
+            </p>
+            <p>
+                Our curated collection, fast delivery, and secure payments ensure that 
+                your shopping experience is smooth and reliable.
+            </p>
+        </div>
+    </div>
+
+    <!-- OUR VALUES -->
+    <div class="values-section">
+        <h2 class="values-title">Our Core Values</h2>
+
+        <div class="values-grid">
+            <div class="value-card">
+                <h3>Quality First</h3>
+                <p>We ensure every product meets our strict standards for durability and performance.</p>
+            </div>
+
+            <div class="value-card">
+                <h3>Customer Trust</h3>
+                <p>Your satisfaction is our top priority — always transparent, always honest.</p>
+            </div>
+
+            <div class="value-card">
+                <h3>Fast Delivery</h3>
+                <p>We work with top couriers to ensure your orders arrive quick and safe.</p>
+            </div>
+
+            <div class="value-card">
+                <h3>Secure Payments</h3>
+                <p>Protected with top-level encryption and trusted payment gateways like Razorpay.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- TEAM -->
+    <div class="team-section">
+        <h2>Meet Our Team</h2>
+
+        <div class="team-grid">
+            <div class="team-card">
+                <img src="{% static 'images/team.jpg' %}" alt="Team Member">
+                <div class="team-name">Vineela</div>
+                <div class="team-role">Founder & Developer</div>
+                <p>Passionate about building smooth shopping experiences using Django.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+

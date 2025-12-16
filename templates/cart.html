@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cart-UrbanoCart{% endblock %}
+
+{% block content %}
+
+<style>
+.cart-container {
+    width: 90%;
+    margin: 40px auto;
+    display: grid;
+    grid-template-columns: 65% 35%;
+    gap: 30px;
+}
+
+/* ---- LEFT SIDE: PRODUCT LIST ---- */
+.cart-items-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.cart-item {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.cart-item a {
+	text-decoration: none;
+	color: #444;
+}
+
+/* text */
+.item-details h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.item-size {
+    font-size: 15px;
+    margin: 4px 0;
+    color: #444;
+}
+
+.item-price {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 6px 0;
+}
+
+/* quantity selector */
+.quantity-section {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.qty-input {
+    width: 60px;
+    text-align: center;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 6px;
+    font-size: 16px;
+}
+
+.quantity-section button {
+    padding: 6px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    background: #f5f5f5;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.update-btn {
+    background: #f5f5f5;
+    border: none;
+}
+
+/* remove */
+.remove-btn {
+    background: transparent;
+    border: none;
+    color: red;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* ---- RIGHT SIDE: ORDER SUMMARY ---- */
+.summary-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    height: fit-content;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.summary-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+.summary-total {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+/* Payment button */
+.payment-btn {
+    margin-top: 25px;
+    width: 100%;
+    padding: 12px;
+    background: black;
+    color: white;
+    font-size: 16px;
+    border-radius: 7px;
+    cursor: pointer;
+    border: none;
+}
+
+.payment-btn:hover {
+    background: #222;
+}
+
+</style>
+
+
+<div class="cart-container">
+
+    <!-- LEFT SIDE: CART ITEMS -->
+    <div class="cart-items-box">
+        <h2>Your Cart</h2>
+
+        {% if cart_items %}
+            {% for item in cart_items %}
+            <div class="cart-item">
+				<a href="{% url 'product_detail' item.product.slug %}">
+					<img src="{{ item.product.images.first.image.url }}">
+				</a>
+                <div class="item-details">
+					<a href="{% url 'product_detail' item.product.slug %}">
+						<h3>{{ item.product.title }}</h3>
+					</a>
+					{% if item.size %}
+						<div class="item-size">Size: <strong>{{ item.size }}</strong></div>
+					{% endif %}
+                    <div class="item-price">₹{{ item.product.price }}</div>
+
+                    <!-- Update quantity -->
+                    <form method="POST" action="{% url 'update_cart' item.id %}">
+                        {% csrf_token %}
+                        <div class="quantity-section">
+							<button type="button" onclick="this.nextElementSibling.stepDown()">-</button>
+							<input type="number" name="quantity" class="qty-input" min="1" value="{{ item.quantity }}">
+							<button type="button" onclick="this.previousElementSibling.stepUp()">+</button>
+							<button type="submit" class="update-btn">Update</button>
+						</div>
+                    </form>
+
+                    <!-- Remove item -->
+                    <form method="POST" action="{% url 'remove_from_cart' item.id %}">
+                        {% csrf_token %}
+                        <button class="remove-btn">Remove</button>
+                    </form>
+
+                </div>
+
+            </div>
+            {% endfor %}
+
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+    </div>
+
+    <!-- RIGHT SIDE: SUMMARY -->
+    <div class="summary-box">
+        <div class="summary-title">Order Summary</div>
+
+        <div class="summary-row">
+            <span>Items:</span>
+            <span>{{ total_items }}</span>
+        </div>
+
+        <div class="summary-row">
+            <span>Total Price:</span>
+            <span>₹{{ total_price }}</span>
+        </div>
+
+        <hr>
+
+        <div class="summary-total">
+            Grand Total: ₹{{ total_price }}
+        </div>
+
+		<a href="{% url 'checkout' %}">
+			<button class="payment-btn">Checkout</button>
+		</a>
+
+
+    </div>
+
+</div>
+
+{% endblock %}
+

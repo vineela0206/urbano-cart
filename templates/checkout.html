@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Checkout-UrbanoCart{% endblock %}
+
+{% block content %}
+
+<style>
+.checkout-container {
+    width: 90%;
+    margin: 40px auto;
+    display: grid;
+    grid-template-columns: 60% 40%;
+    gap: 35px;
+}
+
+/* LEFT: SHIPPING FORM */
+.checkout-box {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.checkout-box h2 {
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    font-size: 15px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.form-group input, 
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 7px;
+    border: 1px solid #aaa;
+}
+
+.pay-btn {
+    width: 100%;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, #000000, #333333);
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.pay-btn:hover {
+    background: linear-gradient(135deg, #222222, #000000);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+.pay-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* ORDER SUMMARY */
+.summary-box {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    height: fit-content;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.summary-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.summary-total {
+    margin-top: 15px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+</style>
+
+<div class="checkout-container">
+
+    <!-- LEFT SIDE -->
+    <div class="checkout-box">
+        <h2>Shipping Details</h2>
+
+        <form method="POST" action="{% url 'payment' %}">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="fullname" required>
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" name="phone" required>
+            </div>
+
+            <div class="form-group">
+                <label>Address</label>
+                <input type="text" name="address" required>
+            </div>
+
+            <div class="form-group">
+                <label>City</label>
+                <input type="text" name="city" required>
+            </div>
+
+            <div class="form-group">
+                <label>State</label>
+                <input type="text" name="state" required>
+            </div>
+
+            <div class="form-group">
+                <label>Pincode</label>
+                <input type="text" name="pincode" required>
+            </div>
+			
+			<div class="form-group">
+				<label>Delivery Method</label>
+				<select name="delivery_method" id="delivery_method" required>
+					<option value="standard" data-days="5">Standard Delivery (5-7 days)</option>
+					<option value="express" data-days="2">Express Delivery (1-2 days)</option>
+				</select>
+			</div>
+			
+            <div class="form-group">
+				<label>Payment Method</label>
+				<select name="payment_method" required>
+					<option value="razorpay">Online Payment (Razorpay)</option>
+					<option value="cod">Cash On Delivery</option>
+				</select>
+			</div>
+			<button type="submit" class="pay-btn">Proceed to Payment</button>
+        </form>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="summary-box">
+        <div class="summary-title">Order Summary</div>
+		
+		{% for item in cart_items %}
+		<div class="summary-row">
+			<span>{{ item.product.title }}
+				{% if item.size %}
+					<br><small>Size: {{ item.size }}</small>
+				{% endif %}
+				<br><small>Qty: {{ item.quantity }}</small>
+			</span>
+
+			<span>₹{{ item.total }}</span>
+		</div>
+		{% endfor %}
+		
+		<hr>
+		
+        <div class="summary-row">
+            <span>Total Items</span>
+            <span>{{ total_items }}</span>
+        </div>
+
+        <div class="summary-row">
+            <span>Subtotal</span>
+            <span>₹{{ total_price }}</span>
+        </div>
+
+        <hr>
+
+        <div class="summary-total">
+            Total: ₹{{ total_price }}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+

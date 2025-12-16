@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+.category-products-container {
+    width: 95%;
+    margin: 40px auto;
+    padding-bottom: 50px;
+}
+
+.category-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* FILTERS LAYOUT */
+.filters-container {
+    display: flex;
+    gap: 35px;
+}
+
+/* FILTER SIDEBAR */
+.filters-box {
+    width: 240px;
+    background: #fff;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+    height: fit-content;
+}
+
+.filters-box h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.filters-box label {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.filters-box input,
+.filters-box select {
+    width: 100%;
+    padding: 6px 8px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.apply-filters-btn {
+    width: 100%;
+    background: black;
+    color: white;
+    border: none;
+    padding: 10px 0;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.apply-filters-btn:hover {
+    background: #333;
+}
+
+/* PRODUCTS SECTION */
+.products-section {
+    flex: 1;
+}
+
+/* PRODUCT GRID */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 30px;
+}
+
+/* CARD */
+.product-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: .25s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    padding-bottom: 10px;
+}
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.product-image {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+}
+
+.product-title {
+    margin: 10px 12px 5px;
+    font-size: 16px;
+    font-weight: 500;
+    min-height: 40px;
+}
+
+/* PRICES */
+.price-box {
+    margin: 10px 12px;
+}
+
+.current-price {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.old-price {
+    font-size: 15px;
+    text-decoration: line-through;
+    color: #888;
+    margin-left: 8px;
+}
+
+.discount-tag {
+    color: #2ecc71;
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+/* ADD TO CART */
+.add-cart-btn {
+    width: 90%;
+    margin: 10px auto;
+    background: black;
+    padding: 9px 0;
+    color: white;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+.add-cart-btn:hover {
+    background: #222;
+}
+</style>
+
+
+<div class="category-products-container">
+
+    <h2 class="category-title">{% block page_title %}{{ page_title }}{% endblock %}</h2>
+
+    <div class="filters-container">
+
+        <!-- FILTER SIDEBAR -->
+        <form method="GET" class="filters-box">
+            <h3>Filters</h3>
+
+            <!-- PRICE -->
+            <label>Price Range</label>
+            <input type="number" name="min_price" placeholder="Min Price" value="{{ request.GET.min_price }}">
+            <input type="number" name="max_price" placeholder="Max Price" value="{{ request.GET.max_price }}">
+
+            <!-- BRAND -->
+            <label>Brand</label>
+            <select name="brand">
+                <option value="all">All Brands</option>
+                {% for b in brands %}
+                    <option value="{{ b }}" {% if request.GET.brand == b %}selected{% endif %}>{{ b }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- SORT -->
+            <label>Sort By</label>
+            <select name="sort">
+                <option value="">Default</option>
+                <option value="low_to_high" {% if request.GET.sort == 'low_to_high' %}selected{% endif %}>Price: Low to High</option>
+                <option value="high_to_low" {% if request.GET.sort == 'high_to_low' %}selected{% endif %}>Price: High to Low</option>
+                <option value="newest" {% if request.GET.sort == 'newest' %}selected{% endif %}>Newest</option>
+                <option value="discount" {% if request.GET.sort == 'discount' %}selected{% endif %}>Biggest Discount</option>
+            </select>
+
+            <button class="apply-filters-btn">Apply</button>
+        </form>
+
+
+        <!-- PRODUCT GRID -->
+        <div class="products-section">
+
+            <div class="products-grid">
+                {% for product in products %}
+                <div class="product-card">
+
+                    <a href="{% url 'product_detail' product.slug %}">
+                        <img src="{{ product.images.first.image.url }}" class="product-image">
+                    </a>
+
+                    <h3 class="product-title">{{ product.title }}</h3>
+
+                    <div class="price-box">
+                        <span class="current-price">₹{{ product.price }}</span>
+
+                        {% if product.old_price %}
+                            <span class="old-price">₹{{ product.old_price }}</span>
+                            <span class="discount-tag">{{ product.discount_percentage }}% OFF</span>
+                        {% endif %}
+                    </div>
+
+                    <form method="POST" action="{% url 'add_to_cart' product.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="add-cart-btn">ADD TO CART</button>
+                    </form>
+
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}
+

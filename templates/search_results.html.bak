@@ -1,0 +1,5 @@
+{% extends "products_list_common.html" %}
+
+{% block page_title %}
+    {{ page_title }}
+{% endblock %}

@@ -1,0 +1,2 @@
+{% include "products_list_common.html" with page_title="Gifts" %}
+

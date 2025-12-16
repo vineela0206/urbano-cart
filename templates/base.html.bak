@@ -1,0 +1,122 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}UrbanoCart{% endblock %}</title>
+  <link rel="icon" href="{% static 'images/favicon-32.png' %}" sizes="32x32" />
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+{% if user.is_authenticated and user.username == "demo@example.com" %}
+<div style="background:#333; color:white; padding:10px; text-align:center;">
+    Demo Mode Active — No real payments. No data will be saved.
+</div>
+{% endif %}
+{% if messages %}
+<div class="alert-container">
+    {% for message in messages %}
+        <div class="alert">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+		<a href="/">
+			<img src="{% static 'images/logo.png' %}" alt="UrbanoCart Logo" class="logo-img">
+		</a>
+	  </div>
+      <nav class="main-nav">
+        <a href="{% url 'home' %}">Home</a>
+        <details class="shop-dropdown">
+		  <summary class="shop-summary">Shop</summary>
+
+		  <div class="mega-menu">
+			<div class="mega-column">
+			   <h4>Categories</h4>
+			   <a href="{% url 'category_products' 'clothing' %}">Clothing</a>
+			   <a href="{% url 'category_products' 'footwear' %}">Footwear</a>
+			   <a href="{% url 'category_products' 'accessories' %}">Accessories</a>
+			   <a href="{% url 'category_products' 'home-living' %}">Home & Living</a>
+			</div>
+
+			<!-- TRENDING -->
+			<div class="mega-column">
+			  <h4>Trending</h4>
+			  <a href="{% url 'best_sellers' %}">Best Sellers</a>
+			  <a href="{% url 'new_arrivals' %}">New Arrivals</a>
+			  <a href="{% url 'on_sale' %}">On Sale</a>
+			</div>
+
+			<!-- COLLECTIONS -->
+			<div class="mega-column">
+			  <h4>Collections</h4>
+			  <a href="{% url 'summer_edit' %}">Summer Edit</a>
+			  <a href="{% url 'workspace' %}">Workspace</a>
+			  <a href="{% url 'gifts' %}">Gifts</a>
+			</div>
+
+			<!-- FEATURED -->
+			<div class="mega-column featured">
+			  <h4>Featured</h4>
+			  <a href="{% url 'featured_product' %}">
+                Featured
+			  </a>
+			</div>
+		  </div>
+		</details>
+        <a href="{% url 'categories'%}">Categories</a>
+        <a href="{% url 'about'%}">About</a>
+        <a href="{% url 'contact'%}">Contact</a>
+      </nav>
+      <div class="header-actions">
+        <form class="search-form" action="{% url 'search' %}" method="GET">
+			<input type="text" name="q" placeholder="Search products..." class="search-input" required>
+			<button class="search-btn">⌕</button>
+		</form>
+        <a href="{% url 'cart' %}" class="cart-btn">
+			🛒
+			{% if request.session.cart %}
+				<span class="cart-count">{{ request.session.cart|length }}</span>
+			{% endif %}
+		</a>
+		<a href="{% url 'my_orders' %}" class="orders-btn">🛍️Orders</a>
+		<!-- Auth area: show username if logged in, otherwise show login/signup -->
+		<div class="auth-area">
+          {% if user.is_authenticated %}
+            <span class="user-name">Hello, {{ user.username }}</span>
+            <a class="btn-ghost" href="{% url 'account' %}">Account</a>
+            <form method="post" action="/accounts/logout/" style="display:inline;">
+			  {% csrf_token %}
+			  <button type="submit" class="btn-ghost" style="cursor:pointer;">
+				Logout
+			  </button>
+			</form>
+          {% else %}
+            <a class="btn" href="{% url 'login' %}">Login</a>
+            <a class="btn-outline" href="{% url 'signup' %}">Sign up</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+	<div class="container footer-content">
+		<div class="footer-left">© {% now "Y" %} UrbanoCart — All Rights Reserved</div>
+		<div class="footer-links">
+		  <a href="mailto:daraganivineela@gmail.com">📧 Email Us</a>
+		  <a href="tel:+917997003800">📞 Call Support</a>
+		  <a href="{% url 'contact' %}">📝 Contact Form</a>
+		</div>
+	</div>
+  </footer>
+</body>
+</html>
+

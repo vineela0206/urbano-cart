@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<h2>Select Size for {{ product.name }}</h2>
+
+<form method="POST" action="{% url 'add_to_cart' product.id %}">
+    {% csrf_token %}
+
+    {% comment %} Load quantity preserved earlier {% endcomment %}
+    <input type="hidden" name="quantity" value="{{ request.session.pending_quantity }}">
+
+    <div class="size-picker">
+        {% for s in product.size_list %}
+                <input type="radio" id="size{{s}}" name="size" value="{{s}}">
+                <label for="size{{s}}" class="size-box">{{s}}</label>
+        {% endfor %}
+    </div>
+
+    <br>
+
+    <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+</form>
+
+{% endblock %}

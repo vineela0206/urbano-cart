@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Login-UrbanoCart{% endblock %}
+
+{% block content %}
+<section class="container auth-page">
+  <h1>Login</h1>
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <div>
+      <label for="id_username">Username</label>
+      <input type="text" name="username" id="id_username" required>
+    </div>
+    <div>
+      <label for="id_password">Password</label>
+      <input type="password" name="password" id="id_password" required>
+    </div>
+    <button type="submit" class="form-btn">Login</button>
+  </form>
+  <p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+  <form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+    <input type="hidden" name="username" value="demo@example.com">
+    <input type="hidden" name="password" value="Demo@123">
+    <button type="submit" class="form-btn">
+        Login as Demo User
+    </button>
+  </form>
+</section>
+{% endblock %}

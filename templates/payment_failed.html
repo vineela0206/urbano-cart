@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Payment Failed-UrbanoCart{% endblock %}
+{% block content %}
+
+<style>
+.fail-container {
+    max-width: 600px;
+    margin: 60px auto;
+    text-align: center;
+    background: #fff;
+    padding: 40px;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.fail-icon {
+    font-size: 70px;
+    color: #e74c3c;
+    margin-bottom: 20px;
+}
+
+.fail-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.fail-message {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.btn-retry {
+    background: #e74c3c;
+    color: #fff !important;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: 0.2s ease;
+}
+
+.btn-retry:hover {
+    background: #c0392b;
+}
+
+.btn-home {
+    margin-top: 12px;
+    display: inline-block;
+    background: #000;
+    color: #fff !important;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+}
+</style>
+
+<div class="fail-container">
+
+    <div class="fail-icon">✖</div>
+
+    <div class="fail-title">Payment Failed!</div>
+
+    <p class="fail-message">
+        Something went wrong while processing your payment.  
+        Please try again or choose another payment method.
+    </p>
+
+    <a href="{% url 'checkout' %}" class="btn-retry">Try Again</a>
+
+    <br><br>
+    <a href="{% url 'home' %}" class="btn-home">Return to Home</a>
+
+</div>
+
+{% endblock %}
+
