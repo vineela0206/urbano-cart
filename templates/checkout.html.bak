@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}Checkout-UrbanoCart{% endblock %}
+
 {% block content %}
 
 <style>
@@ -169,7 +171,7 @@
 				<br><small>Qty: {{ item.quantity }}</small>
 			</span>
 
-			<span>₹{{ item.total }}</span>
+			<span>₹{{ item.price }}</span>
 		</div>
 		{% endfor %}
 		
